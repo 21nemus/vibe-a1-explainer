@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inside the Vibe A1</title>
+<meta name="description" content="Take apart the open-source Vibe A1 humanoid in your browser: cut it open, follow the power and the data, make it walk, then look inside one of its 25 servos.">
+<meta property="og:title" content="Inside the Vibe A1">
+<meta property="og:description" content="An open-source humanoid you can build yourself. Cut it open, follow the power and data, and make it walk.">
+<meta property="og:type" content="website">
+<!-- Social cards need absolute URLs; update these if the site moves. -->
+<meta property="og:image" content="https://21nemus.github.io/vibe-a1-explainer/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Inside the Vibe A1">
+<meta name="twitter:description" content="Take apart an open-source humanoid in your browser: cut it open, follow the power and data, make it walk.">
+<meta name="twitter:image" content="https://21nemus.github.io/vibe-a1-explainer/assets/og-image.jpg">
+<meta name="twitter:creator" content="@21nemus">
+<meta property="og:url" content="https://21nemus.github.io/vibe-a1-explainer/">
+<meta name="theme-color" content="#070a12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070a12'/%3E%3Crect x='20' y='10' width='24' height='18' rx='5' fill='none' stroke='%238fd3ff' stroke-width='4'/%3E%3Crect x='17' y='32' width='30' height='20' rx='4' fill='%23f3f1ec'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="gl" aria-label="Interactive 3D model of the Vibe A1 humanoid robot"></canvas>
+<div id="labels" aria-hidden="true"></div>
+
+<header id="intro" class="hud">
+  <div class="eyebrow" id="eyebrow">Open-source humanoid</div>
+  <h1><span class="pre" id="title-pre">Inside the</span><span class="main" id="title-main">Vibe A1</span></h1>
+  <p class="lede" id="lede"></p>
+  <div class="stats" id="stats"></div>
+  <div class="card" id="card" aria-live="polite"></div>
+</header>
+
+<section id="panel" class="hud" aria-label="Controls">
+  <div class="row">
+    <div class="group grow">
+      <div class="glabel"><span id="g-follow-label">Follow</span><span class="keys">1 2 3 4</span></div>
+      <div class="seg" id="seg-follow" role="radiogroup"></div>
+    </div>
+    <div class="group slider-group">
+      <div class="glabel"><span id="g-slider-label">Walk speed</span><span class="mono" id="slider-value">0%</span></div>
+      <input type="range" id="slider" min="0" max="100" step="1" value="0" aria-label="Walk speed">
+    </div>
+  </div>
+  <div class="row">
+    <div class="group">
+      <div class="glabel" id="g-variant-label">Model</div>
+      <div class="seg" id="seg-variant" role="radiogroup"></div>
+    </div>
+    <div class="group grow">
+      <div class="glabel" id="g-view-label">View</div>
+      <div class="seg" id="seg-view" role="radiogroup"></div>
+    </div>
+    <div class="group buttons">
+      <button class="icon" id="btn-tour" title="Guided tour (Space)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="icon" id="btn-action" title="Wave"></button>
+      <button class="icon" id="btn-help" title="Help (H)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2.9-1.2 1.8M12 16.6v.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<nav id="tabs" class="hud" aria-label="Scenes">
+  <button class="tab active" data-scene="robot"><i></i><span><b>Vibe A1</b><small>open-source humanoid</small></span></button>
+  <button class="tab" data-scene="servo"><i></i><span><b>STS3215</b><small>one of its joints</small></span></button>
+</nav>
+
+<footer id="corner" class="hud">
+  <button class="icon" id="btn-share" title="Share"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8 11l8-4M8 13l8 4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg></button>
+  <a class="icon" id="link-github" href="https://github.com/21nemus/vibe-a1-explainer" target="_blank" rel="noopener" title="Source code on GitHub" aria-label="Source code on GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg></a>
+  <a class="credit byline" id="link-x" href="https://x.com/21nemus" target="_blank" rel="noopener" title="Follow on X"><svg viewBox="0 0 24 24"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.2-8.3L2 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@21nemus</span></a>
+  <button class="credit" id="btn-credits">CAD &amp; specs: Vibe Robotics SDK</button>
+</footer>
+
+<div id="tooltip" class="hud" role="tooltip"></div>
+<div id="toast" class="hud"></div>
+
+<div id="help" class="modal" hidden>
+  <div class="sheet">
+    <h2>How to use</h2>
+    <ul>
+      <li><b>Drag</b> to orbit, <b>scroll</b> or pinch to zoom, <b>right-drag</b> to pan.</li>
+      <li><b>1–4</b> follow power, data or balance. <b>W</b> whole, <b>C</b> cutaway, <b>E</b> exploded.</li>
+      <li><b>Hover</b> a part to name it. <b>Click a servo</b> to look inside it.</li>
+      <li><b>Space</b> plays the guided tour. <b>S</b> switches scene. <b>↑ ↓</b> change the speed.</li>
+    </ul>
+    <h2>Sources</h2>
+    <p>Geometry, joint axes, limits, masses and the recorded wave come from the
+      <a href="https://github.com/viberobotics/vibe_robotics_sdk" target="_blank" rel="noopener">Vibe Robotics SDK</a> (Apache-2.0, MuJoCo models exported from Vibe's Onshape CAD).
+      Specs: <a href="https://www.viberobotics.co/docs" target="_blank" rel="noopener">viberobotics.co/docs</a>.
+      Servo data: Feetech STS3215 / STS3250 datasheets. The internal electronics layout is illustrative; the parts come from Vibe's bill of materials.</p>
+    <h2>Made by</h2>
+    <p><a href="https://x.com/21nemus" target="_blank" rel="noopener">@21nemus on X</a> · <a href="https://github.com/21nemus/vibe-a1-explainer" target="_blank" rel="noopener">source code on GitHub</a> (MIT; robot assets Apache-2.0 from the Vibe Robotics SDK).</p>
+    <p class="fine">Independent explainer, not affiliated with Vibe Robotics. Vibe A1 is a trademark of Vibe Robotics Technologies Inc. Built with three.js.</p>
+    <button class="close" id="help-close">Got it</button>
+  </div>
+</div>
+
+<div id="loader"><div class="ring"></div><div class="ltext">Printing parts…</div></div>
+<noscript><p class="noscript">This explainer needs JavaScript and WebGL.</p></noscript>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

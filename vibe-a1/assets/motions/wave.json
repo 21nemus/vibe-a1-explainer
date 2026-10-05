@@ -1,0 +1,94 @@
+{
+ "source": "vibe_robotics_sdk/viberobotics/assets/motions/waving_motion.json (Apache-2.0)",
+ "note": "Right-arm channels of the recorded wave, keyed by MuJoCo joint name; each frame is held for `hold` seconds on the robot.",
+ "frames": [
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.005,
+    "right_shoulder_roll": -0.008,
+    "right_shoulder_yaw": 0.003,
+    "right_elbow_pitch": 0.002,
+    "right_wrist_yaw": 0.002,
+    "right_hand": 0.005
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.028,
+    "right_shoulder_roll": -1.694,
+    "right_shoulder_yaw": -1.664,
+    "right_elbow_pitch": -1.551,
+    "right_wrist_yaw": 0.607,
+    "right_hand": 0.005
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.037,
+    "right_shoulder_roll": -1.694,
+    "right_shoulder_yaw": -1.663,
+    "right_elbow_pitch": -0.741,
+    "right_wrist_yaw": 0.606,
+    "right_hand": 0.005
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.031,
+    "right_shoulder_roll": -1.697,
+    "right_shoulder_yaw": -1.664,
+    "right_elbow_pitch": -1.758,
+    "right_wrist_yaw": 0.604,
+    "right_hand": 0.005
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.035,
+    "right_shoulder_roll": -1.694,
+    "right_shoulder_yaw": -1.663,
+    "right_elbow_pitch": -0.796,
+    "right_wrist_yaw": 0.606,
+    "right_hand": 0.005
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.034,
+    "right_shoulder_roll": -1.677,
+    "right_shoulder_yaw": -1.654,
+    "right_elbow_pitch": -1.752,
+    "right_wrist_yaw": 0.597,
+    "right_hand": 0.006
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.034,
+    "right_shoulder_roll": -1.678,
+    "right_shoulder_yaw": -1.654,
+    "right_elbow_pitch": -0.798,
+    "right_wrist_yaw": 0.597,
+    "right_hand": 0.006
+   }
+  },
+  {
+   "hold": 1.0,
+   "q": {
+    "right_shoulder_pitch": 0.008,
+    "right_shoulder_roll": -0.009,
+    "right_shoulder_yaw": 0.002,
+    "right_elbow_pitch": -0.003,
+    "right_wrist_yaw": 0.003,
+    "right_hand": 0.006
+   }
+  }
+ ]
+}
